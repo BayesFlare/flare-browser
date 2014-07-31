@@ -1,0 +1,56 @@
+$def with (table)
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="The Glasgow Flare list. A GOES flare list generated using Bayesian inference techniques.">
+    <meta name="keywords" content="solar physics, flares, data analysis, bayesian inference">
+    <meta name="author" content="Daniel Williams">
+    <title>
+      Glasgow Flare List 
+    </title>
+
+  </head>
+
+  <body>
+
+
+    <div class="flarelist">
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th> DBID </th>
+            <th> Start </th>
+            <th> Class </th>
+            <th> Peak </th>
+            <th> End </th>
+            <th> Model Peak </th>
+            <th> Model Amp </th>
+            <th> Model TauE </th>
+            <th> Model TauG </th>
+          </tr>
+        </thead>
+        <tbody class="table table-striped table-condensed">
+	  $for row in table:
+          <tr>
+            <td>$row['id']</td>
+            <td>$row['thresh_start_time']</td>
+	    <td>$row['data_peak_amplitude']</td>
+	    <td>$row['data_peak_time']</td>
+	    <td>$row['thresh_end_time']</td>
+	    <td>$row['model_peak_time']</td>
+	    <td>$row['model_peak_amplitude']</td>
+	    <td>$row['model_tau_exp']</td>
+	    <td>$row['model_tau_gauss']</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </body>
+
+</html>

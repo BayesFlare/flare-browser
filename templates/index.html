@@ -1,0 +1,156 @@
+$def with ()
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="The Glasgow Flare list. A GOES flare list generated using Bayesian inference techniques.">
+    <meta name="keywords" content="solar physics, flares, data analysis, bayesian inference">
+    <meta name="author" content="Daniel Williams">
+
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    <script type="text/javascript">
+      /****************************************************
+      * MATHJAX CONFIGURATION SETTINGS                   *
+      ****************************************************/
+
+      MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+      TeX: {
+      equationNumbers: {autoNumber: "AMS"},
+      Macros:  {
+      e:   ['\\times 10^{#1}', 1],
+      dif: ['\\, \\mathrm{d} {#1}', 1],
+      __:  ['\\sb{\\mathrm', 1],
+      dfr: ['\\frac{ \\, \\mathrm{d} {#1} }{ \\, \\mathrm{d} {#2} }', 2],
+      difh:['\\, \\mathrm{d}^ {#1}', 2],
+      dfrh:['\\frac{\\, \\mathrm{d}^{#1} }{\\, \\mathrm{d} {#2}^}',3]
+      },
+      menuSettings: {
+      zoom: "Hover"
+      },
+      },
+      "HTML-CSS": {
+      //	linebreaks: { automatic: true },
+      //	availableFonts: {"STIX","TeX"},
+      styles: {".MathJax_Preview": {display:"none"}}
+      }
+      });
+      JXG.Options.showCopyright=false;
+      JXG.Options.showNavigation=false;
+    </script>
+
+    <title>
+      GOES Flare List :: Home
+    </title>
+
+    <!--
+	Bootstrap CSS and Javascript to make things look quite nice, and to decay gracefully on
+	old hardware and to display nicely on mobile devices.
+      -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+    <link href='http://fonts.googleapis.com/css?family=Quicksand:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="static/css/main.css">
+
+    <script src="http://trifacta.github.io/vega/lib/d3.v3.min.js"></script>
+    <script src="http://trifacta.github.io/vega/vega.js"></script>
+
+    <script>
+      //$$(document).on({
+      //   ajaxStart: function() { $$("#lightcurve-display").addClass("loading");    },
+      //   ajaxStop: function() { $$("#lightcurve-display").removeClass("loading"); }    
+      //});
+      //$$.get( "lightcurve/2014-03-01 00:00/2014-03-03 00:00/", function( data ) {
+      //   $$( "#lightcurve-display" ).html( data );
+      //});
+      function submitSelector( ) {
+         start = $$("input#selector-start").val()
+         end = $$("input#selector-end").val()
+         $$.get( "lightcurve/"+start+"/"+end, 
+                  function( data ) {
+                     $$( "#lightcurve-display" ).html( data );
+                   }
+         );
+         $$.get( "list/"+start+"/"+end, 
+                  function( data ) {
+                     $$( "#list-display" ).html( data );
+                   }
+         );
+      };
+
+      $$(document).ready( function(){
+         $$("#selector").submit( function( event ) {
+            submitSelector();
+            event.preventDefault();
+         });
+      });
+    </script>
+
+  </head>
+
+  <body>
+
+    <header class="site-header">
+      <div class="wrap">
+	<div class="masthead clearfix sitenav">
+	  <a class="masthead-brand" href="/">GOES Flare List</a>
+	  <ul class="nav masthead-nav">
+
+	  </ul>
+	</div>
+      </div>
+    </header>
+
+    <div class="site-wrapper-inner">
+      <div class="cover-container">
+	<div class="inner cover">
+	  <h1 class="lead">The GOES Flare List</h1>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <div class="row">
+	<div class="col-md-12">
+	  <h3>Search the Flare List</h3>
+	  <form id="selector" class="form form-inline" role="form">
+	    <div class="form-group">
+	      <div class="input-group">
+		<div class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></div>
+		<input type="datetime" class="form-control" id="selector-start" placeholder="Start Time">
+	      </div>
+	      <div class="input-group">
+		<div class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></div>
+		<input type="datetime" class="form-control" id="selector-end" placeholder="End Time">
+	      </div>
+	    </div>
+	    <div class="input-group">
+	      <button type="submit" class="btn btn-primary pull-right" id="submitter">Go!</button>
+	    </div>
+	  </form>
+	</div>
+      </div>
+      <hr>
+      <div class="row">
+	<div class="col-md-12" id = "lightcurve-display"></div>
+      </div>
+      <div class="row">
+	<div class="col-md-12" id = "list-display"></div>
+      </div>
+	</div>
+      </div>
+    </div>
+
+  </body>
+
+</html>
